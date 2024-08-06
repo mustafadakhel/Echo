@@ -2,7 +2,7 @@
 
 A WIP library that adds some useful extensions for easily adding features to ExoPlayer utilizing the Kotlin DSL
 
-```
+```kotlin
 fun PlayerView.example() {
     // custom actions for a certain listener
     install(PlayerViewListenerFeature) {
