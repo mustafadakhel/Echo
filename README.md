@@ -17,8 +17,7 @@ fun PlayerView.example() {
             DoubleTap.Trisection,
             DoubleTapSeekPauseAction(10000)
         )
-    }
-    install(PlayerViewListenerFeature) {
+        // or ..
         listen(
             DoubleTap.Bisection,
             DoubleTapSeekAction(10000)
