@@ -1,26 +1,27 @@
-package com.mustafadakhel.echo.action.doubleTap
+package com.mustafadakhel.echo.action.tap.dbl
 
 import androidx.media3.ui.PlayerView
 import com.mustafadakhel.echo.listener.PlayerViewListenerAction
-import com.mustafadakhel.echo.listener.doubleTap.DoubleTap
+import com.mustafadakhel.echo.listener.tap.dbl.DoubleTap
 import com.mustafadakhel.echo.throwable.NoPlayerThrowable
 
 class DoubleTapSeekAction(
     private val seekPeriod: Long,
-) : PlayerViewListenerAction<DoubleTap.Data<DoubleTap.Bisection.Area>> {
+) : PlayerViewListenerAction<DoubleTap.Bisection.Data> {
     override fun invoke(
-        data: DoubleTap.Data<DoubleTap.Bisection.Area>,
+        data: DoubleTap.Bisection.Data,
         playerView: PlayerView
-    ) {
+    ): Boolean {
         val player = playerView.player ?: throw NoPlayerThrowable()
         when (data.area) {
-            DoubleTap.Bisection.Area.Left -> {
+            is DoubleTap.Bisection.Area.Left -> {
                 player.seekTo(player.currentPosition - seekPeriod)
             }
 
-            DoubleTap.Bisection.Area.Right -> {
+            is DoubleTap.Bisection.Area.Right -> {
                 player.seekTo(player.currentPosition + seekPeriod)
             }
         }
+        return true
     }
 }

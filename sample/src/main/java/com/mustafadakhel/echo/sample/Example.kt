@@ -1,31 +1,45 @@
 package com.mustafadakhel.echo.sample
 
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.PlayerView
-import com.mustafadakhel.echo.action.doubleTap.DoubleTapSeekAction
-import com.mustafadakhel.echo.action.doubleTap.DoubleTapSeekPauseAction
-import com.mustafadakhel.echo.install.install
+import com.mustafadakhel.echo.action.tap.dbl.DoubleTapPausePlayAction
+import com.mustafadakhel.echo.action.tap.dbl.DoubleTapSeekPausePlayAction
+import com.mustafadakhel.echo.action.tap.single.SingleTapShowControllerAction
+import com.mustafadakhel.echo.install.add
 import com.mustafadakhel.echo.listener.PlayerViewListenerFeature
-import com.mustafadakhel.echo.listener.doubleTap.DoubleTap
+import com.mustafadakhel.echo.listener.swipe.Swipe
+import com.mustafadakhel.echo.listener.tap.dbl.DoubleTap
+import com.mustafadakhel.echo.listener.tap.single.SingleTap
 
+@OptIn(UnstableApi::class)
 fun PlayerView.example() {
     // custom actions for a certain listener
-    install(PlayerViewListenerFeature) {
+    add(PlayerViewListenerFeature) {
         listen(DoubleTap.Bisection) { data, player ->
             // do something custom
+            true
+        }
+        listen(Swipe) { data, player ->
+            // do something custom
+            true
         }
     }
 
     // default actions
-    install(PlayerViewListenerFeature) {
+    add(PlayerViewListenerFeature) {
         listen(
             DoubleTap.Trisection,
-            DoubleTapSeekPauseAction(10000)
+            DoubleTapSeekPausePlayAction(10000)
         )
-    }
-    install(PlayerViewListenerFeature) {
         listen(
-            DoubleTap.Bisection,
-            DoubleTapSeekAction(10000)
+            DoubleTap.Any,
+            DoubleTapPausePlayAction
+        )
+        // or ..
+        listen(
+            SingleTap,
+            SingleTapShowControllerAction
         )
     }
 }

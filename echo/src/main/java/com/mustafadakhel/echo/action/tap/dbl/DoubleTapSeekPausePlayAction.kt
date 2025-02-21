@@ -1,30 +1,33 @@
-package com.mustafadakhel.echo.action.doubleTap
+package com.mustafadakhel.echo.action.tap.dbl
 
+import android.util.Log
 import androidx.media3.ui.PlayerView
 import com.mustafadakhel.echo.listener.PlayerViewListenerAction
-import com.mustafadakhel.echo.listener.doubleTap.DoubleTap
+import com.mustafadakhel.echo.listener.tap.dbl.DoubleTap
 import com.mustafadakhel.echo.throwable.NoPlayerThrowable
 
-class DoubleTapSeekPauseAction(
+class DoubleTapSeekPausePlayAction(
     private val seekPeriod: Long,
-) : PlayerViewListenerAction<DoubleTap.Data<DoubleTap.Trisection.Area>> {
+) : PlayerViewListenerAction<DoubleTap.Trisection.Data> {
     override fun invoke(
-        data: DoubleTap.Data<DoubleTap.Trisection.Area>,
+        data: DoubleTap.Trisection.Data,
         playerView: PlayerView
-    ) {
+    ): Boolean {
+        Log.d("DoubleTapSeekPausePlayAction", "invoke")
         val player = playerView.player ?: throw NoPlayerThrowable()
         when (data.area) {
-            DoubleTap.Trisection.Area.Left -> {
+            is DoubleTap.Trisection.Area.Left -> {
                 player.seekTo(player.currentPosition - seekPeriod)
             }
 
-            DoubleTap.Trisection.Area.Middle -> {
+            is DoubleTap.Trisection.Area.Middle -> {
                 player.playWhenReady = player.playWhenReady.not()
             }
 
-            DoubleTap.Trisection.Area.Right -> {
+            is DoubleTap.Trisection.Area.Right -> {
                 player.seekTo(player.currentPosition + seekPeriod)
             }
         }
+        return true
     }
 }

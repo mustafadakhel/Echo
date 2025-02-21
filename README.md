@@ -8,6 +8,7 @@ fun PlayerView.example() {
     install(PlayerViewListenerFeature) {
         listen(DoubleTap.Bisection) { data, player ->
             // do something custom
+            true
         }
     }
 
@@ -15,13 +16,18 @@ fun PlayerView.example() {
     install(PlayerViewListenerFeature) {
         listen(
             DoubleTap.Trisection,
-            DoubleTapSeekPauseAction(10000)
+            DoubleTapSeekPausePlayAction(10000)
+        )
+        listen(
+            DoubleTap.Any,
+            DoubleTapPausePlayAction
         )
         // or ..
         listen(
-            DoubleTap.Bisection,
-            DoubleTapSeekAction(10000)
+            SingleTap,
+            SingleTapShowControllerAction
         )
     }
 }
+
 ```
